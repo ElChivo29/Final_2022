@@ -1,12 +1,12 @@
 ---
 title: "Covid91 vaccine study Final2023"
-author: "Put your name here!"
+author: "David"
 output: 
   html_document:
     number_sections: true
     toc: true
     toc_depth: 5
-date: "`r Sys.Date()`" 
+date: "NOV 11,2023" 
 ---
 
 ```{r include=FALSE,echo=FALSE}
@@ -25,16 +25,247 @@ mutate(across(where(is.character), as.factor))
 A new  preventative vaccine (covid921) is under test in clinical trials. Given the nature of this vaccine it is suspected that the drug may exhibit different effectiveness across the variety of subpopulations tracked. Consider population subgroups by gender( guys and gals), drug use, and sexual orientation. Write a complete report that separately considers this drug for each subgroup and your recommendations as to whether people in the subgroup should take the vaccine. Structure your report in four sections each devoted to one of the four subgroups, use null and alternative hypothesis statements and correct statistical verbage when referencing p-values in conclusions.
 
 ## Males
+$H_0$ There is no difference in effectiveness in the new Covid921 vaccine and the placebo vaccine when dealing with males 
+$H_A$ There is difference in effectiveness in the new Covid921 vaccine and the placebo vaccine when dealing with males
+
+##Methods
+Since we are comparing "male" to the treatment, which is categorical~categorical, i will use cat~cat.
+
+#Results
+
+```{r}
+library(dplyr)
+male = filter(FinalData, FinalData$sex=='M' )
+```
+
+##Descriptive results
+
+##Graphical descriptive results
+
+```{r}
+barchartGC(~infected + treatment, data=male)
+barchartGC(~infected + treatment, data=male, type="percent")
+```
+
+so the covid19 shot is more effective than the placebo preventing you from catching the virus vs getting the placebo and increasing the chances.
+
+##Numerical descriptive results
+
+```{r}
+table1 <- xtabs(~infected + treatment, data=male)
+rowPerc(table1)
+colPerc(table1)
+```
+so when we look at the chart we can see that 70% of people did contract covid with the placebo while the 30% contracted with the vaccine.
+
+##Infertial results
+
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+```
+
+our p-valiue for the chart above is 0.0002732, so we reject the null hypothesis.
+
+```{r}
+male$infected=factor(male$infected,c('OK', 'covid19'))
+fisher.test(male$treatment,male$infected)
+```
+
+as we can see from the chart our p-value is 1.098e-13 which is less than 0.05, so we reject the null hypothesis.
+
+##Conclusion and Discussion
+
+due to the data i would recommend the vaccine for males as a result it helps prevent from the virus. For my p-value is 1.098e-13 so its less than 0.05 we reject the null hypothesis.  the odds of a male catching it is 0.44 which is close to 1:2, in favor the vaccine for both p-values 0.0002732 and 1.098e-13.
+
+
 
 
 ## Females
 
+$H_0$ There is no difference in effectiveness in the new Covid921 vaccine and the placebo vaccine when dealing with Females 
+
+$H_A$ There is difference in effectiveness in the new Covid921 vaccine and the placebo vaccine when dealing with Females
+
+
+##Methods
+
+Since we are comparing "female" to the treatment, which is categorical~categorical, i will use cat~cat.
+
+#Results
+
+```{r}
+library(dplyr)
+female = filter(FinalData, FinalData$sex=='F' )
+```
+
+##Descriptive results
+
+##Graphical descriptive results
+
+```{r}
+barchartGC(~infected + treatment, data=female)
+barchartGC(~infected + treatment, data=female, type="percent")
+```
+
+so the covid19 shot is a more effective than the placebo preventing you from catching the virus vs getting the placebo and increasing the chances.
+
+##Numerical descriptive results
+
+```{r}
+table2 <- xtabs(~infected + treatment, data=female)
+rowPerc(table2)
+colPerc(table2)
+```
+so when we look at the chart we can see that 60% of people did contract covid with the placebo while the 40% contracted with the vaccine.
+
+
+##Infertial results
+
+```{r}
+chisq.test(table2)
+chisqtestGC(table2)
+```
+
+our p-value above is 0.0002732, so we reject the null hypothesis.
+
+```{r}
+female$infected=factor(female$infected,c('OK', 'covid19'))
+fisher.test(female$treatment,female$infected)
+```
+as we can see from the chart our p-value is 0.0002162 which is less than 0.05, so we reject the null hypothesis.
+
+
+##Conclusion and Discussion
+
+due to the data i would recommend the vaccine for females as a result it still helps prevent from catching the virus. For my p-value is 0.0002162 so its less than 0.05 we reject the null hypothesis.  the odds of a female catching it is 0.66 which is close to 2:3, in favor for both p-values of 0.0002732 for the vaccine.
+
+
+
 
 ## LGBTQ
+$H_H$ There is no difference in effectiveness in the new Covid921 vaccine and the placebo vaccine when dealing with LGBTQ
+$H_H$ There is difference in effectiveness in the new Covid921 vaccine and the placebo vaccine when dealing with LGBTQ
+
+
+
+
+##Methods
+
+Since we are comparing "lgbtq" to the treatment, which is categorical~categorical, i will use cat~cat.
+
+#Results
+
+```{r}
+library(dplyr)
+lgbtq = filter(FinalData, FinalData$LGBTQ=='gay' )
+```
+
+##Descriptive results
+
+##Graphical descriptive results
+
+```{r}
+barchartGC(~infected + treatment, data=lgbtq)
+barchartGC(~infected + treatment, data=lgbtq, type="percent")
+```
+
+so the covid19 shot is a way more effective than the placebo preventing you from catching the virus vs getting the placebo and increasing the chances.
+
+##Numerical descriptive results
+
+```{r}
+table3 <- xtabs(~infected + treatment, data=lgbtq)
+rowPerc(table3)
+colPerc(table3)
+```
+
+so when we look at the chart above we can see that 15% of people did contract covid with the placebo while the 85% contracted with the new vaccine.
+
+##Infertial results
+
+```{r}
+chisq.test(table3)
+chisqtestGC(table3)
+```
+
+on the chart above our p-value is 6.668e-08. which means we reject the null hypothesis.
+
+```{r}
+lgbtq$infected=factor(lgbtq$infected,c('OK', 'covid19'))
+fisher.test(lgbtq$treatment,lgbtq$infected)
+```
+as we can see from the chart our p-value is 1.029e-08 which is still less than 0.05, so we reject the null hypothesis.
+
+
+##Conclusion and Discussion
+
+due to the data i would still recommend the vaccine for lgbtq as a result it still helps prevent from catching the virus. For my p-value is 1.029e-08 so its less than 0.05 we reject the null hypothesis.  the odds of a lgbtq catching it is 5.50 which is close to 1:5, in favor for both p-values of 6.668e-08 and 1.029e-08 for the vaccine.
+
 
 
 
 ## Druggies
+$H_H$ There is no difference in effectiveness in the new Covid921 vaccine and the placebo vaccine when dealing with druggies
+$H_H$ There is difference in effectiveness in the new Covid921 vaccine and the placebo vaccine when dealing with druggies
+
+
+
+
+##Methods
+
+Since we are comparing "druggies" to the treatment, which is categorical~categorical, i will use cat~cat.
+
+#Results
+
+```{r}
+library(dplyr)
+druggies = filter(FinalData, FinalData$DrugUser=='yes' )
+```
+
+##Descriptive results
+##Graphical descriptive results
+
+```{r}
+barchartGC(~infected + treatment, data=druggies)
+barchartGC(~infected + treatment, data=druggies, type="percent")
+```
+
+so the covid19 shot is a way more effective than the placebo preventing you from catching the virus vs getting the placebo and increasing the chances.
+
+##Numerical descriptive results
+
+```{r}
+table4 <- xtabs(~infected + treatment, data=druggies)
+rowPerc(table4)
+colPerc(table4)
+```
+
+so when we look at the chart above we can see that 12% of people did contract covid with the placebo while the 88% contracted with the new vaccine.
+
+##Infertial results
+
+```{r}
+chisq.test(table4)
+chisqtestGC(table4)
+```
+
+on the chart above we can see that our p-value is 2.842e-09. which also means we reject the null hypothesis.
+
+```{r}
+druggies$infected=factor(druggies$infected,c('OK', 'covid19'))
+fisher.test(druggies$treatment,druggies$infected)
+```
+
+as we can see from the chart our p-value is 2.842e-09 which is still less than 0.05, so we reject the null hypothesis.
+
+##Conclusion and Discussion
+
+due to the data i would still recommend the vaccine for druggies as a result it still helps prevent from catching the virus. For my p-value is 1.029e-08 so its less than 0.05 we reject the null hypothesis.  the odds of a druggies catching it is 7.93, the odds don't favor but the p-value of 2.842e-09 and 1.029e-08 does for the vaccine.
+
 
 
 # Overall Results and Conclusions
+
+  So for starters the males groups p-values are 1.098e-13 and 0.0002732, due to this i would still recommend the vaccine for males since it would protect you more than the placebo would.  For females i would also recommend the vaccine over the placebo for the p-values for females are 0.0002732 and 0.0002162 which would also work better than the placebo.  for the LGBTQ even though we had conflicting evidence our p-values are 6.668e-08 and 1.029e-08 and would still recommend the vaccine over the placebo.  last but not least we had druggies our p-values are 2.842e-09 and 
+1.029e-08 so i would still recommend it over the placebo.  Overall i say yes and would recommend it to every group even though we had conflicting evidence for LGBTQ and druggies as a result it would still work and perform better than the placebo.
